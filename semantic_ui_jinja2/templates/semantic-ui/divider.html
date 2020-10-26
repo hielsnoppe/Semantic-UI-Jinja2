@@ -1,0 +1,9 @@
+{% macro Horizontal(url) -%}
+<span class="ui horizontal divider">
+{% if url %}
+    <a href="{{ url }}">{{ caller() }}</a>
+{% else %}
+    {{ caller() }}
+{%endif %}
+</span>
+{%- endmacro %}

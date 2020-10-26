@@ -1,0 +1,77 @@
+{% macro Feed(events=[], class="") -%}
+<div class="ui feed {{ class }}">
+    {% if events %}
+    {% for event in events %}
+    {{ caller(event) }}
+    {% endfor %}
+    {% elif caller %}
+    {{ caller() }}
+    {% endif %}
+</div>
+{%- endmacro %}
+
+{% macro Event(date=None, summary="", icon="", img="") -%}
+<div class="vevent event">
+    <div class="label">
+        {% if icon %}
+        <i class="icon {{ icon }}"></i>
+        {% endif %}
+        {% if img %}
+        <img src="{{ img }}" />
+        {% endif %}
+    </div>
+    {% if summary and date %}
+    <div class="content">
+        <div class="summary">{{ summary }}
+            <span class="date">{{ date }}</span>
+        </div>
+        <div class="extra text">
+            {{ caller() }}
+        </div>
+    </div>
+    {% else %}
+        {{ caller() }}
+    {% endif %}
+</div>
+{%- endmacro %}
+
+{% macro Content() -%}
+<div class="content">
+    {{ caller() }}
+</div>
+{%- endmacro %}
+
+{% macro Summary(className="", content="", date="", user="", user_href="") -%}
+<div class="summary">
+{% if user and user_href %}
+    <a class="user" href="{{ user_href }}">{{ user }}</a>
+{% elif user %}
+    <span class="user">{{ user }}</span>
+{% endif %}
+    {% if content %}{{ content }}{% endif %}
+    {% if caller %}{{ caller() }}{% endif %}
+    {% if date %}<span class="date">{{ date }}</span>{% endif %}
+</div>
+{%- endmacro %}
+
+{% macro ExtraImages(className="", images=[]) -%}
+<div class="extra images">
+    {% for image in images %}
+        <img src="{{ image }}" />
+    {% endfor %}
+</div>
+{%- endmacro %}
+
+{% macro ExtraText(className="", content="") -%}
+<div class="extra text">
+    {% if content %}{{ content }}{% endif %}
+    {% if caller %}{{ caller() }}{% endif %}
+</div>
+{%- endmacro %}
+
+{% macro Meta(className="", content="") -%}
+<div class="meta">
+    {% if content %}{{ content }}{% endif %}
+    {% if caller %}{{ caller() }}{% endif %}
+</div>
+{%- endmacro %}
